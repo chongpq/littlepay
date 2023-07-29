@@ -16,7 +16,8 @@ import java.time.LocalDateTime;
 
 class TripCalculatorTest {
 
-    @Test void completeTripCosts() {
+    @Test
+    void completeTripCosts() {
         CompletedTripCosts completedTripCosts = new CompletedTripCosts();
         TripCalculator classUnderTest = new TripCalculator(null, completedTripCosts);
         Tap start = new Tap("1", "22-01-2023 13:00:00", "ON", "Stop1", "Company1", "Bus37", "5500005555555559");
@@ -36,7 +37,8 @@ class TripCalculatorTest {
         assertEquals("COMPLETED", trip.getStatus());
     }
 
-    @Test void incompleteTripCosts() {
+    @Test
+    void incompleteTripCosts() {
         IncompleteTripCosts incompleteTripCosts = new IncompleteTripCosts();
         TripCalculator classUnderTest = new TripCalculator(incompleteTripCosts, null);
         Tap start = new Tap("1", "22-01-2023 13:00:00", "ON", "Stop1", "Company1", "Bus37", "5500005555555559");
@@ -55,7 +57,8 @@ class TripCalculatorTest {
         assertEquals("INCOMPLETED", trip.getStatus());
     }
     
-    @Test void cancelledTripWorks() {
+    @Test
+    void cancelledTripWorks() {
         CompletedTripCosts completedTripCosts = new CompletedTripCosts();
         TripCalculator classUnderTest = new TripCalculator(null, completedTripCosts);
         Tap start = new Tap("1", "22-01-2023 13:00:00", "ON", "Stop1", "Company1", "Bus37", "5500005555555559");
