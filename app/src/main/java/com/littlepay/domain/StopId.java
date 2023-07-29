@@ -1,11 +1,9 @@
 package com.littlepay.domain;
 
-import java.util.Optional;
-
 public enum StopId {
-    STOP1(0),
-    STOP2(1),
-    STOP3(2);
+    Stop1(0),
+    Stop2(1),
+    Stop3(2);
 
     private final int arrayRef;
 
@@ -15,9 +13,5 @@ public enum StopId {
 
     int arrayRef() {
         return arrayRef;
-    }
-
-    public Optional<StopId> getStopId(String str) {
-        return Optional.empty();
     }
 }
