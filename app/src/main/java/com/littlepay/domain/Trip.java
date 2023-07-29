@@ -16,6 +16,20 @@ public class Trip {
     private String PAN;
     private String status;
 
+    public Trip(LocalDateTime started, LocalDateTime finished, Long durationSec, StopId fromStopId, StopId toStopId,
+                    BigDecimal chargeAmount, String companyId, String busID, String PAN, String status) {
+        this.started = started;
+        this.finished = finished;
+        this.durationSec = durationSec;
+        this.fromStopId = fromStopId;
+        this.toStopId = toStopId;
+        this.chargeAmount = chargeAmount;
+        this.companyId = companyId;
+        this.busID = busID;
+        this.PAN = PAN;
+        this.status = status;
+    }
+
     public Object getStarted() {
         return started;
     }
