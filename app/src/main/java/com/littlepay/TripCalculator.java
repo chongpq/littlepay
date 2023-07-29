@@ -12,7 +12,6 @@ public class TripCalculator {
 
     private static final String CANCELLED = "CANCELLED";
     private static final String INCOMPLETED = "INCOMPLETED";
-    private static final Long ZERO = Long.valueOf(0);
 
     private IncompleteTripCosts incompleteTripCosts;
     private CompletedTripCosts completedTripCosts;
@@ -34,8 +33,8 @@ public class TripCalculator {
                 return null;
             }
         } else {
-            return new Trip(start.getDateTimeUTC(), start.getDateTimeUTC(), ZERO, start.getStopId(),
-                    start.getStopId(), incompleteTripCosts.get(start.getStopId()), start.getCompanyId(),
+            return new Trip(start.getDateTimeUTC(), null, null, start.getStopId(),
+                    null, incompleteTripCosts.get(start.getStopId()), start.getCompanyId(),
                     start.getBusId(), start.getPAN(), INCOMPLETED);
         }
     }
