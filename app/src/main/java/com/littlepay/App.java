@@ -3,8 +3,6 @@ package com.littlepay;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.littlepay.domain.CompletedTripCosts;
@@ -18,11 +16,10 @@ public class App {
         CompletedTripCosts completedTripCosts = new CompletedTripCosts();
         TripCalculator tripCalculator = new TripCalculator(incompleteTripCosts, completedTripCosts);
 
-        List<Tap> taps;
+        Tap[] taps;
         try (Stream<String> stream = Files.lines(Paths.get(args[0])).skip(1)) {
-            //todo optional to remove dud Taps ?
-            taps = stream.map(TapsParser::StringToTapMapper)
-                .collect(Collectors.toList());
+            //todo use optional to remove dud Taps ?
+            taps = stream.map(TapsParser::StringToTapMapper).toArray(Tap[]::new);
         } catch (IOException e) {
             System.err.println(String.format("Error reading file '%s'", args[0]));
             return;
