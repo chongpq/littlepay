@@ -159,4 +159,29 @@ public class TapsParserTest {
         assertEquals("COMPLETED", trip.getStatus());
     }
 
+    @Test
+    void testTripToStringMapper() {
+        Trip trip = new Trip(
+            LocalDateTime.of(2023,1,22,13,0,0),
+            LocalDateTime.of(2023,1,22,13,0,5),
+            1800l,
+            StopId.Stop1,
+            StopId.Stop3,
+            new BigDecimal(7.30),
+            "Company1",
+            "Bus37",
+            "5500005555555559",
+            "COMPLETED"
+        );
+
+        assertEquals("22-01-2023 13:00:00, 22-01-2023 13:00:05, 1800, Stop1, Stop3, $7.30, Company1, Bus37, 5500005555555559, COMPLETED",TapsParser.TripToStringMapper(trip));
+    }
+
+    @Test
+    void testIncompleteTripToStringMapper() {
+        Trip trip = new Trip(LocalDateTime.of(2023,1,22,13,0,0), null, null, StopId.Stop1, null, new BigDecimal(7.30),
+                        "Company1", "Bus37", "5500005555555559", "INCOMPLETED");
+
+        assertEquals("22-01-2023 13:00:00, , , Stop1, , $7.30, Company1, Bus37, 5500005555555559, INCOMPLETED",TapsParser.TripToStringMapper(trip));
+    }
 }

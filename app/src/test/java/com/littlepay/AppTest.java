@@ -36,6 +36,7 @@ class AppTest {
 
         App.main(args);
 
-        // assertEquals("Started, Finished, DurationSecs, FromStopId, ToStopId, ChargeAmount, CompanyId, BusID, PAN, Status", outputStreamCaptor.toString().trim());
+        assertEquals("Started, Finished, DurationSecs, FromStopId, ToStopId, ChargeAmount, CompanyId, BusID, PAN, Status\n" + //
+                "22-01-2023 13:00:00, 22-01-2023 13:05:00, 300, Stop1, Stop2, $3.25, Company1, Bus37, 5500005555555559, COMPLETED", outputStreamCaptor.toString().trim());
     }
 }
