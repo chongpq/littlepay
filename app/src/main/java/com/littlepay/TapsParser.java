@@ -3,6 +3,7 @@ package com.littlepay;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.littlepay.domain.Constants;
 import com.littlepay.domain.Tap;
 import com.littlepay.domain.Trip;
 
@@ -14,6 +15,18 @@ public class TapsParser {
         String[] strings = line.split(CSV_SPLIT_REGEX);
         return new Tap(strings[0], strings[1], strings[2],
                 strings[3], strings[4], strings[5], strings[6]);
+    }
+
+    public static String TripToStringMapper(Trip trip) {
+        String started = trip.getStarted().format(Constants.FORMATTER);
+        String finished = trip.getFinished() != null? trip.getFinished().format(Constants.FORMATTER) : "";
+        String chargeAmount = Constants.DECIMAL_FORMAT.format(trip.getChargeAmount());
+        String duration = trip.getDurationSec() != null ? trip.getDurationSec().toString() : "";
+        String toStopId = trip.getToStopId() != null ? trip.getToStopId().toString() : "";
+
+        return String.format("%s, %s, %s, %s, %s, %s, %s, %s, %s, %s", started, finished,
+            duration, trip.getFromStopId(), toStopId, chargeAmount, trip.getCompanyId(),
+            trip.getBusID(), trip.getPAN(), trip.getStatus());
     }
 
     /**

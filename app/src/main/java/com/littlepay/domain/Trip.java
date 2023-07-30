@@ -30,10 +30,10 @@ public class Trip {
         this.status = status;
     }
 
-    public Object getStarted() {
+    public LocalDateTime getStarted() {
         return started;
     }
-    public Object getFinished() {
+    public LocalDateTime getFinished() {
         return finished;
     }
     public Long getDurationSec() {

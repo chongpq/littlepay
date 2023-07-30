@@ -28,6 +28,7 @@ public class App {
             "ToStopId, ChargeAmount, CompanyId, BusID, PAN, Status");
         TapsParser.getTrips(taps, tripCalculator)
             .stream()
+            .map(TapsParser::TripToStringMapper)
             .forEach(System.out::println);
     }
 }
