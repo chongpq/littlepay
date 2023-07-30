@@ -31,3 +31,6 @@ The jar file works like a standard UNIX command line utility and it can be scrip
 * That taps are equivalent if they have the same PAN, BusID, CompanyId.
 * That the output files in the example given was wrong. I've fixed the dates for Started and Finished to be 2023 and the DurationSecs to be 300.
 * That TapType ON or OFF are not important. We just need to see if 2 taps are the same in order to calculate the fare.
+
+## Output csv
+The `output.csv` can be found at `./app/src/test/resources/output.csv` and is the result of running the app against `./app/src/test/resources/taps1.csv` the required input file.
