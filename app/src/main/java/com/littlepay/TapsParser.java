@@ -1,6 +1,6 @@
 package com.littlepay;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.littlepay.domain.Tap;
@@ -16,8 +16,37 @@ public class TapsParser {
                 strings[3], strings[4], strings[5], strings[6]);
     }
 
-    public static List<Trip> getTrips(List<Tap> taps, TripCalculator tripCalculator) {
-        return Collections.emptyList();
+    /**
+     * It is a parser deciscion to determine whether 2 taps are equivalent or not.
+     *
+     * Hence this function not being in the Tap class in the domain model.
+     *
+     * @param tap
+     * @param tap2
+     * @return
+     */
+    private static boolean tapsAreEquivalent(Tap tap, Tap tap2) {
+        return tap.getPAN().equals(tap2.getPAN()) && tap.getBusId().equals(tap2.getBusId())
+            && tap.getCompanyId().equals(tap2.getCompanyId());
+    }
+
+    public static List<Trip> getTrips(Tap[] taps, TripCalculator tripCalculator) {
+        List<Trip> trips = new ArrayList<>();
+        for (int index = 0; index < taps.length; index++) {
+            if (index + 1 == taps.length) {
+                //1 tap left being examined
+                trips.add(tripCalculator.calculate(taps[index], null));
+            } else {
+                //2 taps being examined
+                if (tapsAreEquivalent(taps[index], taps[index + 1])) {
+                    trips.add(tripCalculator.calculate(taps[index], taps[index + 1]));
+                    index++;
+                } else {
+                    trips.add(tripCalculator.calculate(taps[index], null));
+                }
+            }
+        }
+        return trips;
     }
     
 }
