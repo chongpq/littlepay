@@ -10,9 +10,11 @@ public class CompletedTripCosts {
         {new BigDecimal(7.30), new BigDecimal(5.50), BigDecimal.ZERO}
     };
 
+    /**
+     *  This is a in-memory version of completed trip costs
+     *  we could read from a configuration file to setup <code>BigDecimal[][] tripCosts</code>
+     */
     public CompletedTripCosts() {
-        // this is a in memory version of completed trip costs
-        // we could read from a configuration file to setup completed trip costs
         
     }
 
