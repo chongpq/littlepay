@@ -23,10 +23,11 @@ For the Taps Parser I assumed it was more important to evaluate taps as a pair i
 The jar file works like a standard UNIX command line utility and it can be scripted in a standard bash script, as demo'ed in the `run.sh` file.
 
 ## Assumptions
+* That the input file is well formed and is not missing data.
 * OFF without a corresponding ON tap will result in an Incomplete trip and will be billed the largest amount.
-* there isn't a time limit on cancelling a trip.
-* there aren't time limits on the length of time spent on getting to a stop.
-* that the machine this service is run on is on UTC time.
-* that taps are equivalent if they have the same PAN, BusID, CompanyId.
-* that the output files in the example given was wrong. I've fixed the dates for Started and Finished to be 2023 and the DurationSecs to be 300.
-* that TapType ON or OFF are not important. We just need to see if 2 taps are the same in order to calculate the fare.
+* There isn't a time limit on cancelling a trip.
+* There aren't time limits on the length of time spent on getting to a stop.
+* That the machine this service is run on is on UTC time.
+* That taps are equivalent if they have the same PAN, BusID, CompanyId.
+* That the output files in the example given was wrong. I've fixed the dates for Started and Finished to be 2023 and the DurationSecs to be 300.
+* That TapType ON or OFF are not important. We just need to see if 2 taps are the same in order to calculate the fare.

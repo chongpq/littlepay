@@ -47,14 +47,19 @@ public class TapsParser {
         List<Trip> trips = new ArrayList<>();
         for (int index = 0; index < taps.length; index++) {
             if (index + 1 == taps.length) {
-                //1 tap left being examined
+                //1 tap belongs to a person, take 1 tap off the array because
+                //we are using 1 tap in the tripCalculation. This is the last remain tap.
                 trips.add(tripCalculator.calculate(taps[index], null));
             } else {
                 //2 taps being examined
                 if (tapsAreEquivalent(taps[index], taps[index + 1])) {
+                    //Both taps belong to the same person, take 2 taps off the array because 
+                    //we are using both taps in the tripCalculation
                     trips.add(tripCalculator.calculate(taps[index], taps[index + 1]));
                     index++;
                 } else {
+                    //1 tap belongs to a person, take 1 tap off the array because
+                    //we are using 1 tap in the tripCalculation
                     trips.add(tripCalculator.calculate(taps[index], null));
                 }
             }
