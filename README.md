@@ -16,7 +16,7 @@ To execute the program as required please use the `./run.sh  <input-file-locatio
 The results of testing can be viewed after the running `./gradlew clean build` by viewing `./app/build/reports/jacoco/test/html/index.html`
 
 ## Design
-The major observation is that Completed Trip Costs can be represented by a 2d Array and the Incomplete Trip Costs can be represented by a normal array. They are currently in-memory arrays in CompletedTripCosts.java and IncompleteTripCosts.java. In a proper system they can be replaced by a SQL or noSQL service (if we need an immediate update), or by a S3 file and a redeploy depending on requirements i.e. if time is not a factor.
+The major observation is that Completed Trip Costs can be represented by a 2D array and the Incomplete Trip Costs can be represented by a normal array. They are currently in-memory arrays in CompletedTripCosts.java and IncompleteTripCosts.java. In a proper system they can be replaced by a SQL or noSQL service (if we need an immediate update), or by a S3 file and a redeploy, depending on requirements i.e. if time is not a factor.
 
 For the Taps Parser I assumed it was more important to evaluate taps as a pair if possible than to evaluate them as separate incomplete trips. I assumed the tap on/off might not be as reliable piece of data, so even if we receive 2 ON's, 2 OFF's or the reverse, OFF and then ON, the Taps Parser will try and make complete trip from them. I'm aware that it might be more lucrative for Littlepay if I did't make these assumptions.
 
