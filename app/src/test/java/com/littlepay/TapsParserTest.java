@@ -1,12 +1,15 @@
 package com.littlepay;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,20 +22,21 @@ import com.littlepay.domain.Trip;
 
 public class TapsParserTest {
 
-    private TripCalculator tripCalculator;
+    private TapsParser tapsParser;
 
     @BeforeEach
     void setup() {
         IncompleteTripCosts incompleteTripCosts = new IncompleteTripCosts();
         CompletedTripCosts completedTripCosts = new CompletedTripCosts();
-        this.tripCalculator = new TripCalculator(incompleteTripCosts, completedTripCosts);
+        TripCalculator tripCalculator = new TripCalculator(incompleteTripCosts, completedTripCosts);
+        this.tapsParser = new TapsParser(tripCalculator);
     }
 
     @Test
     void emptyTapsArrayWorks() {
         Tap[] taps = {};
 
-        List<Trip> trips = TapsParser.getTrips(taps, tripCalculator);
+        List<Trip> trips = tapsParser.getTrips(taps);
 
         assertEquals(Collections.emptyList(), trips);
     }
@@ -43,7 +47,7 @@ public class TapsParserTest {
 
         Tap[] taps = { tap };
 
-        List<Trip> trips = TapsParser.getTrips(taps, tripCalculator);
+        List<Trip> trips = tapsParser.getTrips(taps);
 
         assertEquals(1, trips.size());
         Trip trip = trips.get(0);
@@ -67,7 +71,7 @@ public class TapsParserTest {
 
         Tap[] taps = { tap, tap2 };
     
-        List<Trip> trips = TapsParser.getTrips(taps, tripCalculator);
+        List<Trip> trips = tapsParser.getTrips(taps);
 
         assertEquals(1, trips.size());
         Trip trip = trips.get(0);
@@ -92,7 +96,7 @@ public class TapsParserTest {
 
         Tap[] taps = { tap, tap2, tap3};
 
-        List<Trip> trips = TapsParser.getTrips(taps, tripCalculator);
+        List<Trip> trips = tapsParser.getTrips(taps);
 
         assertEquals(2, trips.size());
         Trip trip = trips.get(0);
@@ -129,7 +133,7 @@ public class TapsParserTest {
 
         Tap[] taps = { tap3, tap, tap2 };
     
-        List<Trip> trips = TapsParser.getTrips(taps, tripCalculator);
+        List<Trip> trips = tapsParser.getTrips(taps);
 
         assertEquals(2, trips.size());
         Trip trip = trips.get(0);
@@ -183,5 +187,46 @@ public class TapsParserTest {
                         "Company1", "Bus37", "5500005555555559", "INCOMPLETED");
 
         assertEquals("22-01-2023 13:00:00, , , Stop1, , $7.30, Company1, Bus37, 5500005555555559, INCOMPLETED",TapsParser.TripToStringMapper(trip));
+    }
+
+    @Test
+    void testTapTypeTapsComparator() {
+        Tap tap = new Tap("1", "22-01-2024 13:00:00", "ON", "Stop1", "Company1", "Bus37", "5500005555555559");
+        Tap tap2 = new Tap("2", "22-01-2024 13:00:00", "OFF", "Stop3", "Company1", "Bus37", "5500005555555559");
+        List<Tap> taps = List.of(tap, tap2);
+        
+        List<Tap> result = taps.stream()
+            .sorted(TapsParser.TAPS_GROUPING_SORTING_COMPARATOR)
+            .collect(Collectors.toList());
+
+        assertEquals(1,result.get(0).getId());
+        assertEquals(2,result.get(1).getId());
+    }
+
+    @Test
+    void testDateTimeUTCTapsComparator() {
+        Tap tap = new Tap("1", "22-01-2024 13:00:00", "ON", "Stop1", "Company1", "Bus37", "5500005555555559");
+        Tap tap2 = new Tap("2", "22-01-2021 13:30:00", "OFF", "Stop3", "Company1", "Bus37", "5500005555555559");
+        Tap tap3 = new Tap("3", "22-01-2023 13:00:00", "ON", "Stop1", "Company1", "Bus37", "5500005555555559");
+        List<Tap> taps = List.of(tap, tap2, tap3);
+        
+        List<Tap> result = taps.stream()
+            .sorted(TapsParser.TAPS_GROUPING_SORTING_COMPARATOR)
+            .collect(Collectors.toList());
+
+        assertEquals(2,result.get(0).getId());
+        assertEquals(3,result.get(1).getId());
+        assertEquals(1,result.get(2).getId());
+    }
+
+    @Test
+    void testIsTakingTwoTaps() {
+        Tap tap = new Tap("1", "22-01-2024 13:00:00", "ON", "Stop1", "Company1", "Bus37", "5500005555555559");
+        Tap tap2 = new Tap("2", "22-01-2024 13:00:00", "OFF", "Stop3", "Company1", "Bus37", "5500005555555559");
+        
+        assertTrue(tapsParser.isTakingTwoTaps(tap, tap2));
+        assertFalse(tapsParser.isTakingTwoTaps(tap2, tap));
+        assertFalse(tapsParser.isTakingTwoTaps(tap, tap));
+        assertFalse(tapsParser.isTakingTwoTaps(tap2, tap));
     }
 }
