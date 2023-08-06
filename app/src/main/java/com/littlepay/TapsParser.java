@@ -67,9 +67,12 @@ public class TapsParser {
      * @param tap2
      * @return
      */
-     boolean isTakingTwoTaps(Tap tap, Tap tap2) {
-        return TAPS_GROUPING_COMPARATOR.compare(tap, tap2) == 0
-            && (tap.getTapType().equals(TapType.ON) && tap2.getTapType().equals(TapType.OFF));
+    boolean isTakingTwoTaps(Tap tap, Tap tap2) {
+        boolean isBothTapsInTheSameGroup = TAPS_GROUPING_COMPARATOR.compare(tap, tap2) == 0;
+        boolean isTapTypeTable = (tap.getTapType().equals(TapType.ON) &&
+            tap2.getTapType().equals(TapType.OFF));
+
+        return isBothTapsInTheSameGroup && isTapTypeTable;
     }
 
     public List<Trip> getTrips(Stream<Tap> stream) {
