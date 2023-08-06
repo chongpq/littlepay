@@ -22,14 +22,13 @@ import com.littlepay.domain.Trip;
 
 public class TapsParserTest {
 
-    private TripCalculator tripCalculator;
     private TapsParser tapsParser;
 
     @BeforeEach
     void setup() {
         IncompleteTripCosts incompleteTripCosts = new IncompleteTripCosts();
         CompletedTripCosts completedTripCosts = new CompletedTripCosts();
-        this.tripCalculator = new TripCalculator(incompleteTripCosts, completedTripCosts);
+        TripCalculator tripCalculator = new TripCalculator(incompleteTripCosts, completedTripCosts);
         this.tapsParser = new TapsParser(tripCalculator);
     }
 
