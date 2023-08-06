@@ -20,7 +20,7 @@ The major observation is that Completed Trip Costs can be represented by a 2D ar
 
 For the Taps Parser I assumed it is sufficient to group and sort the input.csv into PAN, BusID and CompanyId groups and sort these groups by DateTimeUTC and TapType and store them in an Array. We then go over this array check if there is only one element in the array and calculate on Tap if there is or else we need to check whether we are doing a 2 Tap or a 1 Tap to calculate the trip fare. Trip fares are looked up in the 2D array for the 2 Tap calc and they can be looked up in the array for the 1 Tap calc.
 
-Part of the no of taps calulation is comparing if the taps belong to the same group. If the do then we use the the TapTypes and the result is list in the table below.
+Part of the no. of taps calulation is comparing if the taps belong to the same group. If the do then we use the the TapTypes and the result is list in the table below.
      
 | tap.TapType | tap2.TapType | take 2 taps?
 |-------------|--------------|--------------- 
