@@ -15,11 +15,11 @@ public class TapsParser {
     private static final String CSV_SPLIT_REGEX = "\\s*,\\s*";
 
     static final Comparator<Tap> TAPS_GROUPING_COMPARATOR = Comparator.comparing(Tap::getPAN)
-                                                                        .thenComparing(Tap::getBusId)
-                                                                        .thenComparing(Tap::getCompanyId);
-    static final Comparator<Tap> TAPS_COMPARATOR = TAPS_GROUPING_COMPARATOR
-                                                            .thenComparing(Tap::getDateTimeUTC)
-                                                            .thenComparing(Tap::getTapType);
+        .thenComparing(Tap::getBusId)
+        .thenComparing(Tap::getCompanyId);
+    static final Comparator<Tap> TAPS_GROUPING_SORTING_COMPARATOR = TAPS_GROUPING_COMPARATOR
+        .thenComparing(Tap::getDateTimeUTC)
+        .thenComparing(Tap::getTapType);
     
     public static Tap StringToTapMapper(String line) {
         String[] strings = line.split(CSV_SPLIT_REGEX);
@@ -47,13 +47,15 @@ public class TapsParser {
     
     /**
      * This is an important function in this solution. It is closely related to 
-     * <code>TAPS_COMPARATOR</code>.
+     * <pre>TAPS_GROUPING_SORTING_COMPARATOR</pre>.
      * 
-     * <code>TAPS_COMPARATOR</code> is used to sort the incoming taps list, the 
-     * most variable field is going to be DateTimeUTC. When we sort the list we 
-     * group all the PAN, BusID and CompanyID together. Only if we need to do we
-     * compare 2 adjacent TapTypes. The TapTypes and the result is list in the
-     * table below.
+     * <pre>TAPS_GROUPING_SORTING_COMPARATOR</pre> is used to sort the incoming
+     * taps list, the most variable field is going to be DateTimeUTC. We use the 
+     * <pre>TAPS_GROUPING_COMPARATOR</pre> to find out whether we need to compare
+     * 2 adjacent TapTypes. When both Taps belong to the same group we need to compare 
+     * TapTypes next to answer our question.  
+     * 
+     * The TapTypes and the result is list in the table below.
      * 
      * tap.TapType | tap2.TapType | result
      * ====================================
@@ -71,7 +73,7 @@ public class TapsParser {
     }
 
     public List<Trip> getTrips(Stream<Tap> stream) {
-        Tap[] taps = stream.sorted(TapsParser.TAPS_COMPARATOR)
+        Tap[] taps = stream.sorted(TapsParser.TAPS_GROUPING_SORTING_COMPARATOR)
             .toArray(Tap[]::new);
         return getTrips(taps);
     }

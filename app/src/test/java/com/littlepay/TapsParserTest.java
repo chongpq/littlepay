@@ -197,7 +197,7 @@ public class TapsParserTest {
         List<Tap> taps = List.of(tap, tap2);
         
         List<Tap> result = taps.stream()
-            .sorted(TapsParser.TAPS_COMPARATOR)
+            .sorted(TapsParser.TAPS_GROUPING_SORTING_COMPARATOR)
             .collect(Collectors.toList());
 
         assertEquals(1,result.get(0).getId());
@@ -212,7 +212,7 @@ public class TapsParserTest {
         List<Tap> taps = List.of(tap, tap2, tap3);
         
         List<Tap> result = taps.stream()
-            .sorted(TapsParser.TAPS_COMPARATOR)
+            .sorted(TapsParser.TAPS_GROUPING_SORTING_COMPARATOR)
             .collect(Collectors.toList());
 
         assertEquals(2,result.get(0).getId());
